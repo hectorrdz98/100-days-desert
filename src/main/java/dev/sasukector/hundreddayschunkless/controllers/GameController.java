@@ -33,18 +33,9 @@ public class GameController {
         this.schedulerID = new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.getLogger().info("Toca revisión de chunks");
-                ChunksController.getInstance().saveDeletedChunksToFile();
-                World overworld = ServerUtilities.getOverworld();
-                if (overworld != null) {
-                    long currentDay = overworld.getFullTime() / 24000;
-                    if (currentDay != lastDay) {
-                        lastDay = currentDay;
-                        ChunksController.getInstance().deleteChunks();
-                    }
-                }
+                ChunksController.getInstance().deleteChunks();
             }
-        }.runTaskTimer(HundredDaysChunkLess.getInstance(), 0L, 30 * 20L).getTaskId();
+        }.runTaskTimer(HundredDaysChunkLess.getInstance(), 0L, 5 * 20L).getTaskId();
     }
 
 }

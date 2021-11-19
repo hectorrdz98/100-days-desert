@@ -64,6 +64,9 @@ public class BoardController {
             lines.add("");
             lines.add("Online: §6" + Bukkit.getOnlinePlayers().size());
             lines.add("TPS: §6" + String.format("%.2f", Bukkit.getTPS()[0]));
+            lines.add("Chunks restantes: §6" + String.format("%.2f",
+                    100 - (ChunksController.getInstance().getDeletedChunks().size() * 100 / 17161.0)) + " %"
+            );
             lines.add("");
 
             board.updateLines(lines);

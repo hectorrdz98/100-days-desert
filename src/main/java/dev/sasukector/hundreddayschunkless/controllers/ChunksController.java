@@ -111,32 +111,22 @@ public class ChunksController {
 
     public void deleteChunks() {
         World overworld = ServerUtilities.getOverworld();
-        long lastDay = GameController.getInstance().getLastDay();
-        double currentProb = lastDay / 100.0;
         if (overworld != null) {
-            ServerUtilities.sendBroadcastMessage(ServerUtilities.getMiniMessage().parse(
-                    "<color:#2E6F95>Nuevo día, borrando chunks con</color> <bold><color:#0091AD>" +
-                            lastDay + "%</color></bold>"
-            ));
             List<int[]> chunkPorBorrar = new ArrayList<>();
             for (int i = -65; i <= 65; ++i) {
                 for (int j = -65; j <= 65; ++j) {
-                    if (this.notDeletedChunk(i, j) && random.nextDouble() <= currentProb) {
+                    if (this.notDeletedChunk(i, j)) {
                         chunkPorBorrar.add(new int[]{ i,j });
                     }
                 }
             }
             BukkitTCT task = new BukkitTCT();
             Collections.shuffle(chunkPorBorrar);
-            chunkPorBorrar.forEach(coords -> {
-                AtomicInteger chunkX = new AtomicInteger(coords[0]);
-                AtomicInteger chunkZ = new AtomicInteger(coords[1]);
+            if (chunkPorBorrar.size() > 0) {
+                AtomicInteger chunkX = new AtomicInteger(chunkPorBorrar.get(0)[0]);
+                AtomicInteger chunkZ = new AtomicInteger(chunkPorBorrar.get(0)[1]);
                 task.addWithDelay(() -> deleteChunk(overworld, chunkX.get(), chunkZ.get()), 5000);
-            });
-            ServerUtilities.sendBroadcastMessage(ServerUtilities.getMiniMessage().parse(
-                    "<color:#2E6F95>Se van a borrar</color> <bold><color:#0091AD>" +
-                            chunkPorBorrar.size() + " chunks</color></bold>"
-            ));
+            }
             task.execute();
         }
     }
@@ -150,6 +140,7 @@ public class ChunksController {
                         for (int x = 0; x < 16; ++x) {
                             for (int z = 0; z < 16; ++z) {
                                 Block block = chunk.getBlock(x, y, z);
+                                if (block.getType() == Material.AIR) continue;
                                 if (block.getType() != Material.END_PORTAL_FRAME &&
                                         block.getType() != Material.END_PORTAL) {
                                     block.setType(Material.AIR);
@@ -158,10 +149,12 @@ public class ChunksController {
                         }
                     }
                     Bukkit.getOnlinePlayers().forEach(player -> player.sendActionBar(ServerUtilities.getMiniMessage().parse(
-                            "Se ha borrado el chunk <color:#2E6F95>[" + chunk.getX() + ", " + chunk.getZ() + "]</color>"
+                            "Se ha borrado el chunk <color:#2E6F95>[" + (chunk.getX() * 16) + ", " +
+                                    (chunk.getZ() * 16) + "]</color>"
                     )));
                     Bukkit.getLogger().info("Se ha borrado el chunk [" + chunk.getX() + ", " + chunk.getZ() + "]");
                     addChunkToDeletedOnes(chunk);
+                    saveDeletedChunksToFile();
                 }
             } else {
                 Bukkit.getLogger().info("No se pudo cargar el chunk en " + chunk.getX() + ", " + chunk.getZ());
