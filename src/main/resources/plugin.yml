@@ -15,3 +15,6 @@ commands:
   conter-tps:
     description: Command to display tps
     usage: /tps
+  inventory:
+    description: Command to see player inventory
+    usage: /inventory [playerName]

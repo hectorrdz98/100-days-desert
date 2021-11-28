@@ -1,5 +1,6 @@
 package dev.sasukector.hundreddaysbase;
 
+import dev.sasukector.hundreddaysbase.commands.InventoryCommand;
 import dev.sasukector.hundreddaysbase.commands.TPSCommand;
 import dev.sasukector.hundreddaysbase.commands.ToggleDaysCommand;
 import dev.sasukector.hundreddaysbase.commands.PlayedCommand;
@@ -34,6 +35,7 @@ public final class HundredDaysDesert extends JavaPlugin {
         Objects.requireNonNull(HundredDaysDesert.getInstance().getCommand("conter-tps")).setExecutor(new TPSCommand());
         Objects.requireNonNull(HundredDaysDesert.getInstance().getCommand("played")).setExecutor(new PlayedCommand());
         Objects.requireNonNull(HundredDaysDesert.getInstance().getCommand("toggleDays")).setExecutor(new ToggleDaysCommand());
+        Objects.requireNonNull(HundredDaysDesert.getInstance().getCommand("inventory")).setExecutor(new InventoryCommand());
 
         // Start teams
         TeamsController.getInstance();
