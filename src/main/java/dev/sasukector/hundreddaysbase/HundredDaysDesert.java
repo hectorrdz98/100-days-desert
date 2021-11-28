@@ -42,6 +42,6 @@ public final class HundredDaysDesert extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        getLogger().info(ChatColor.DARK_PURPLE + "HundredDaysBedrockWalk shutdown!");
+        getLogger().info(ChatColor.DARK_PURPLE + "HundredDaysDesert shutdown!");
     }
 }

@@ -1,6 +1,7 @@
 package dev.sasukector.hundreddaysbase.events;
 
 import dev.sasukector.hundreddaysbase.controllers.BoardController;
+import dev.sasukector.hundreddaysbase.controllers.TeamsController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
@@ -18,6 +19,9 @@ public class SpawnEvents implements Listener {
                         .append(Component.text(player.getName(), TextColor.color(0x84E3A4)))
         );
         BoardController.getInstance().newPlayerBoard(player);
+        if (player.isOp()) {
+            TeamsController.getInstance().getMasterTeam().addEntry(player.getName());
+        }
     }
 
     @EventHandler
