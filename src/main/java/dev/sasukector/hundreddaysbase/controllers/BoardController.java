@@ -1,6 +1,6 @@
 package dev.sasukector.hundreddaysbase.controllers;
 
-import dev.sasukector.hundreddaysbase.HundredDaysDesert;
+import dev.sasukector.hundreddaysbase.HundredDaysBase;
 import dev.sasukector.hundreddaysbase.helpers.FastBoard;
 import dev.sasukector.hundreddaysbase.helpers.ServerUtilities;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class BoardController {
     }
 
     public BoardController() {
-        Bukkit.getScheduler().runTaskTimer(HundredDaysDesert.getInstance(), this::updateBoards, 0L, 20L);
+        Bukkit.getScheduler().runTaskTimer(HundredDaysBase.getInstance(), this::updateBoards, 0L, 20L);
         this.hideDays = false;
     }
 
@@ -51,6 +51,7 @@ public class BoardController {
 
             List<String> lines = new ArrayList<>();
             lines.add("");
+            lines.add("Jugador: §6" + player.getName());
 
             World overworld = ServerUtilities.getOverworld();
             if (overworld != null && !hideDays) {
@@ -58,10 +59,14 @@ public class BoardController {
             }
 
             double hours = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20.0/ 60.0 / 60.0;
-            lines.add("Jugado: §d" + String.format("%.2f", hours) + " h");
+            lines.add("Tiempo jugado: §d" + String.format("%.2f", hours) + " h");
 
             lines.add("");
             lines.add("Online: §6" + Bukkit.getOnlinePlayers().size());
+            lines.add("TPS: §6" + String.format("%.2f", Bukkit.getTPS()[0]));
+            lines.add("Chunks restantes: §6" + String.format("%.2f",
+                    100 - (ChunksController.getInstance().getDeletedChunks().size() * 100 / 17161.0)) + " %"
+            );
             lines.add("");
 
             board.updateLines(lines);

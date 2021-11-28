@@ -38,6 +38,12 @@ public class ServerUtilities {
         return miniMessage.parse("<bold><gradient:#5C4D7D:#B7094C>100 días</gradient></bold>");
     }
 
+    public static void sendBroadcastMessage(Component message) {
+        Bukkit.broadcast(getPluginNameColored()
+                .append(Component.text(" ▶ ", TextColor.color(0xC0C1C2)))
+                .append(message));
+    }
+
     public static void sendServerMessage(Player player, String message) {
         player.sendMessage(getPluginNameColored()
                 .append(Component.text(" ▶ ", TextColor.color(0xC0C1C2)))

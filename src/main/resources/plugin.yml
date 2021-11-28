@@ -1,9 +1,9 @@
-name: HundredDaysDesert
+name: HundredDaysBase
 version: '${project.version}'
-main: dev.sasukector.hundreddaysbase.HundredDaysDesert
+main: dev.sasukector.hundreddaysbase.HundredDaysBase
 api-version: 1.17
 authors: [ Sasukector ]
-description: This is the core plugin for HundredDaysDesert
+description: This is the core plugin for HundredDaysBase
 website: https://sasukector.dev
 commands:
   played:
@@ -12,6 +12,3 @@ commands:
   toggleDays:
     description: Command to toggle days display
     usage: /toggleDays
-  conter-tps:
-    description: Command to display tps
-    usage: /tps
